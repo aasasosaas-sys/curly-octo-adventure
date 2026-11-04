@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>テーマ別問題集 マークシート</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=Zen+Kaku+Gothic+New:wght@700;900&family=Roboto+Mono:wght@500;700&display=swap">
+<style>
+:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+ --paper:#F4F7F6;--sheet:#FFFFFF;--ink:#18302E;--sub:#5B6F6C;--line:#D5DFDC;--drop:#E0664F;--dropsoft:#FBE3DD;--teal:#0F4C5C;--tealsoft:#DCEBEE;
+ --good:#2E7D4F;--goodsoft:#DDF1E4;--warn:#B7791F;--warnsoft:#FBF0D9;--bad:#C2412D;--badsoft:#FADFD9;
+ --f-disp:"Zen Kaku Gothic New","BIZ UDPGothic","Hiragino Sans",sans-serif;--f-body:"BIZ UDPGothic","Hiragino Sans","Noto Sans JP",sans-serif;--f-num:"Roboto Mono",ui-monospace,monospace}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#0F1716;--sheet:#16211F;--ink:#E3ECEA;--sub:#93A8A4;--line:#2A3A37;--drop:#F08A74;--dropsoft:#3A2420;--teal:#6CB8C9;--tealsoft:#173238;--good:#6CCB92;--goodsoft:#173225;--warn:#E6B45C;--warnsoft:#33291A;--bad:#F08A74;--badsoft:#3A2420;color-scheme:dark}}
+/* 教材ごとのアクセント色（地理＝青緑／生物基礎 知識編＝緑青／生物基礎 思考編＝赤） */
+.c-chiri{--teal:#0F4C5C;--tealsoft:#DCEBEE}.c-sk{--teal:#1A6A4A;--tealsoft:#DDF1E4}.c-ss{--teal:#B5382A;--tealsoft:#FBE3DD}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .c-chiri{--teal:#6CB8C9;--tealsoft:#173238}:root:not([data-theme="light"]) .c-sk{--teal:#6CCB92;--tealsoft:#173225}:root:not([data-theme="light"]) .c-ss{--teal:#F08A74;--tealsoft:#3A2420}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.6;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 120px;-webkit-text-size-adjust:100%}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+[hidden]{display:none!important}
+.wrap{max-width:860px;margin:0 auto}
+header{padding-block:18px 8px}
+h1{font-family:var(--f-disp);font-weight:900;font-size:clamp(21px,4.5vw,28px);margin:0;letter-spacing:.02em;text-wrap:balance}
+h1 small{display:block;font-size:12px;font-weight:700;color:var(--teal);letter-spacing:.12em}
+.store{font-size:12px;color:var(--sub);margin-top:4px}
+.sticky{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--paper)}
+nav.tabs{display:flex;gap:4px;padding-block:6px 0;border-bottom:2px solid var(--ink)}
+nav.tabs button{font:700 15px var(--f-body);background:none;border:0;padding:8px 12px;border-radius:8px 8px 0 0;color:var(--sub);cursor:pointer}
+nav.tabs button[aria-selected="true"]{background:var(--ink);color:var(--sheet)}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+.books{display:flex;gap:6px;overflow-x:auto;padding-block:8px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.books::-webkit-scrollbar{display:none}
+.bk{flex:none;font:700 13px var(--f-body);border:1.5px solid var(--line);background:var(--sheet);color:var(--ink);border-radius:999px;padding:6px 14px;cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.bk i{width:9px;height:9px;border-radius:50%;background:var(--teal);display:inline-block}
+.bk[aria-selected="true"]{background:var(--teal);border-color:var(--teal);color:var(--sheet)}
+.bk[aria-selected="true"] i{background:var(--sheet)}
+.swipehint{font-size:11.5px;color:var(--sub);padding-bottom:4px}
+.parts{display:flex;flex-wrap:wrap;gap:6px;padding-block:12px 6px}
+.chip{font:700 13px var(--f-body);border:1.5px solid var(--line);background:var(--sheet);color:var(--ink);border-radius:999px;padding:5px 12px;cursor:pointer}
+.chip[aria-pressed="true"]{border-color:var(--teal);background:var(--teal);color:var(--sheet)}
+.chip small{font-weight:400;opacity:.8;margin-left:4px}
+.parthead{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;padding-block:6px}
+.parthead h2{font-family:var(--f-disp);font-size:20px;margin:0}.parthead span{color:var(--sub);font-size:13px}
+.sheet{background:var(--sheet);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.theme{border-top:1px solid var(--line)}.theme:first-child{border-top:0}
+.thead{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--tealsoft)}
+.tid{font:700 13px var(--f-num);background:var(--teal);color:var(--sheet);border-radius:4px;padding:1px 7px}
+.ttl{font-weight:700;flex:1;min-width:0}.tscore{font:700 14px var(--f-num);white-space:nowrap}
+.row{display:flex;align-items:center;gap:10px;padding:5px 14px;border-top:1px dashed var(--line)}
+.qn{font:500 13px var(--f-num);color:var(--sub);width:62px;flex:none}
+.bub{display:flex;flex-wrap:wrap;gap:6px}
+.b{width:34px;height:34px;border-radius:50%;border:1.6px solid var(--drop);background:transparent;color:var(--drop);font:700 14px var(--f-num);cursor:pointer;display:grid;place-items:center;padding:0;touch-action:manipulation}
+.b[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--sheet)}
+.row.ok .b[aria-pressed="true"]{background:var(--good);border-color:var(--good)}.row.ng .b[aria-pressed="true"]{background:var(--bad);border-color:var(--bad)}
+.row .b.ans{box-shadow:0 0 0 3px var(--goodsoft),0 0 0 5px var(--good)}
+.mk{margin-left:auto;font:700 13px var(--f-num);min-width:2.5em;text-align:right}.row.ok .mk{color:var(--good)}.row.ng .mk{color:var(--bad)}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--sheet);border-top:2px solid var(--ink);padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.bar .in{max-width:860px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px}
+.cnt{font:700 15px var(--f-num)}.btn{font:700 15px var(--f-body);border:0;border-radius:8px;padding:10px 18px;cursor:pointer}
+.btn.pri{background:var(--drop);color:#fff}.btn.sec{background:var(--tealsoft);color:var(--ink)}.btn:disabled{opacity:.45;cursor:not-allowed}
+.msg{font-size:13px;color:var(--sub);flex:1;min-width:160px}
+.result{margin-block:14px;background:var(--sheet);border:2px solid var(--ink);border-radius:10px;padding:14px}.result h3{margin:0 0 6px;font-family:var(--f-disp)}
+.rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px}
+.rcard{border:1px solid var(--line);border-radius:8px;padding:8px 10px;min-width:0}.rcard .top{display:flex;align-items:center;gap:8px}
+.pill{font:700 12px var(--f-body);border-radius:999px;padding:1px 9px;white-space:nowrap}
+.pill.weak{background:var(--badsoft);color:var(--bad)}.pill.mid{background:var(--warnsoft);color:var(--warn)}.pill.good{background:var(--goodsoft);color:var(--good)}.pill.none{background:var(--line);color:var(--sub)}
+.wrong{font:500 12px var(--f-num);color:var(--sub);margin-top:3px;word-break:break-all}
+.sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-block:14px}
+.stat{background:var(--sheet);border:1px solid var(--line);border-radius:10px;padding:10px 14px}.stat b{display:block;font:700 26px var(--f-num)}.stat span{font-size:12px;color:var(--sub)}
+.weaklist{background:var(--sheet);border:2px solid var(--bad);border-radius:10px;padding:12px 14px;margin-block:10px}.weaklist h3{margin:0 0 6px;font-family:var(--f-disp);color:var(--bad);font-size:17px}.weaklist ol{margin:0;padding-left:1.4em}
+.tbl{overflow-x:auto;background:var(--sheet);border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:14px;font-variant-numeric:tabular-nums}
+th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}th{font-size:12px;color:var(--sub);font-weight:700;background:var(--tealsoft);position:sticky;top:0}td.t{white-space:normal;min-width:11em}
+.meter{display:inline-block;width:90px;height:8px;border-radius:4px;background:var(--line);vertical-align:middle;overflow:hidden}.meter i{display:block;height:100%;background:var(--teal)}
+svg.sp{vertical-align:middle}
+.hist{display:grid;gap:8px}.hcard{background:var(--sheet);border:1px solid var(--line);border-radius:10px;padding:10px 14px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px}
+.hcard .d{font:500 13px var(--f-num);color:var(--sub)}.hcard .s{font:700 16px var(--f-num)}.hcard .th{flex-basis:100%;font-size:13px;color:var(--sub)}
+.del{margin-left:auto;font:700 12px var(--f-body);background:none;border:1px solid var(--line);color:var(--sub);border-radius:6px;padding:4px 10px;cursor:pointer}.del.confirm{border-color:var(--bad);color:var(--bad)}
+.empty{background:var(--sheet);border:1px dashed var(--line);border-radius:10px;padding:22px;color:var(--sub);text-align:center}
+.legend{font-size:12px;color:var(--sub);display:flex;flex-wrap:wrap;gap:6px 12px;margin-block:6px}
+select{font:700 14px var(--f-body);padding:6px 10px;border-radius:8px;border:1.5px solid var(--line);background:var(--sheet);color:var(--ink)}
+.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-block:10px}
+/* 復習ヒント（思考編→知識編） */
+.hint{margin-top:12px;border:2px solid var(--teal);border-radius:10px;padding:10px 14px;background:var(--sheet)}
+.hint h4{margin:0 0 4px;font-family:var(--f-disp);font-size:16px;color:var(--teal)}
+.hint .sub{font-size:12px;color:var(--sub);margin:0 0 6px}
+.hitem{padding:7px 0;border-top:1px dashed var(--line)}.hitem:first-of-type{border-top:0}
+.hitem b.q{font:700 13px var(--f-num)}
+.rec{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;margin-top:3px;font-size:13.5px}
+.rec .st{font:700 11.5px var(--f-body);border-radius:999px;padding:0 8px}
+.st.ng{background:var(--badsoft);color:var(--bad)}.st.un{background:var(--warnsoft);color:var(--warn)}.st.ok{background:var(--goodsoft);color:var(--good)}
+.go{font:700 12px var(--f-body);background:var(--tealsoft);color:var(--ink);border:0;border-radius:6px;padding:3px 10px;cursor:pointer}
+/* 設定 */
+.setcard{background:var(--sheet);border:1px solid var(--line);border-radius:10px;padding:14px;margin-block:12px}
+.setcard h3{margin:0 0 8px;font-family:var(--f-disp);font-size:17px}
+.subj{display:flex;align-items:center;gap:12px;padding:10px 4px;border-top:1px solid var(--line)}.subj:first-of-type{border-top:0}
+.subj label{flex:1;display:flex;align-items:center;gap:12px;cursor:pointer;min-width:0}
+.subj input[type=checkbox]{width:24px;height:24px;accent-color:var(--teal);flex:none}
+.subj b{font-size:16px}.subj small{display:block;color:var(--sub);font-size:12.5px}
+.tag{font:700 11.5px var(--f-body);border-radius:999px;padding:1px 9px;background:var(--line);color:var(--sub);white-space:nowrap}
+.sw{display:flex;align-items:center;gap:12px;padding-block:6px}.sw input{width:24px;height:24px;accent-color:var(--teal)}
+@keyframes inL{from{opacity:.2;transform:translateX(34px)}to{opacity:1;transform:none}}@keyframes inR{from{opacity:.2;transform:translateX(-34px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:no-preference){.slideL{animation:inL .22s ease-out}.slideR{animation:inR .22s ease-out}.b{transition:background .12s,transform .08s}.b:active{transform:scale(.92)}}
+@media (max-width:480px){.b{width:30px;height:30px;font-size:13px}.qn{width:52px}.row{gap:6px;padding:5px 10px}}
+</style></head>
+<body>
+<div class="wrap" id="app">
+<header><h1><small id="hsmall">テーマ別問題集</small><span id="htitle">マークシート</span></h1><div class="store" id="store">記録の保存先を確認中…</div></header>
+<div class="sticky">
+<nav class="tabs" role="tablist"><button role="tab" id="tab-mark" aria-selected="true">マーク</button><button role="tab" id="tab-stat" aria-selected="false">テーマ別成績</button><button role="tab" id="tab-hist" aria-selected="false">履歴</button><button role="tab" id="tab-set" aria-selected="false">設定</button></nav>
+<div class="books" id="books" role="tablist" aria-label="教材"></div>
+<div class="swipehint" id="swipehint">← 左右にスワイプすると、ほかの教材のマークシートに切り替わります →</div>
+</div>
+<div id="pager">
+<section id="v-mark"><div class="parts" id="parts"></div><div class="parthead"><h2 id="ptitle"></h2><span id="pinfo"></span></div><div id="result"></div><div class="sheet" id="sheet"></div></section>
+<section id="v-stat" hidden><div class="sum" id="sum"></div><div id="weak"></div><div id="hintStat"></div>
+<div class="filters"><label for="fpart">表示する部</label><select id="fpart"></select><label for="fsort">並べ方</label><select id="fsort"><option value="rate">苦手順（正答率が低い順）</option><option value="id">テーマ番号順</option></select></div>
+<div class="legend"><span class="pill weak">苦手</span>最新の正答率60%未満 <span class="pill mid">要復習</span>60〜79% <span class="pill good">得意</span>80%以上 <span class="pill none">未挑戦</span></div>
+<div class="tbl"><table><thead><tr><th>テーマ</th><th>判定</th><th>最新</th><th>最高</th><th>回数</th><th>推移</th></tr></thead><tbody id="stbody"></tbody></table></div></section>
+<section id="v-hist" hidden><div class="hist" id="hist"></div></section>
+<section id="v-set" hidden></section>
+</div></div>
+<div class="bar" id="bar"><div class="in"><span class="cnt" id="cnt">0 / 0</span><span class="msg" id="msg">マークしたテーマだけ採点します。テーマ内の未マークは不正解として数えます。</span><button class="btn sec" id="clear">消去</button><button class="btn pri" id="grade">採点して記録</button></div></div>
+<script>
+const BOOKS=[{"id":"chiri-k","subject":"地理","name":"知識編","cls":"c-chiri","data":[{"p":"第1部","n":"地形","th":[{"id":"A01","t":"プレート境界と大地形","q":[[6,4],[4,3],[4,4],[4,3],[4,3],[6,4],[4,2],[4,3],[4,2],[4,1],[4,4],[4,2]]},{"id":"A02","t":"地震・火山・海底地形","q":[[6,4],[4,3],[6,1],[4,2],[6,2]]},{"id":"A03","t":"海岸・氷河・サンゴ礁の地形","q":[[6,6],[4,2],[4,2],[4,1],[4,2],[4,2],[4,1],[4,2]]},{"id":"A04","t":"河川の流量と土砂","q":[[4,2],[4,2],[4,2]]},{"id":"A05","t":"海底・湖沼・海岸の地形","q":[[4,4],[4,4],[4,4],[4,4],[4,2],[4,4],[4,4]]}]},{"p":"第2部","n":"気候・植生・土壌・環境","th":[{"id":"B01","t":"気圧帯・風・熱帯低気圧","q":[[4,3],[4,4],[4,4],[6,6],[4,2]]},{"id":"B02","t":"気候区と雨温図・ハイサーグラフ","q":[[6,5],[4,3],[4,3],[4,4],[4,3],[4,2]]},{"id":"B03","t":"植生と土壌","q":[[6,2],[4,2],[4,3],[4,2],[4,2]]},{"id":"B04","t":"地球環境問題","q":[[4,1],[4,3],[4,4],[4,1],[4,1]]},{"id":"B05","t":"大気・海洋の循環と異常気象","q":[[4,4],[4,2],[4,4],[4,1],[4,4],[4,3],[4,3],[4,2],[6,2]]}]},{"p":"第3部","n":"日本の自然と防災","th":[{"id":"C01","t":"日本の気候","q":[[4,3],[4,3],[6,3],[4,3],[4,1],[4,4]]},{"id":"C02","t":"日本の自然災害","q":[[4,3],[4,3],[4,1],[4,1],[4,4],[4,4],[4,4]]},{"id":"C03","t":"防災と地域調査","q":[[4,1],[4,3],[4,4]]},{"id":"C04","t":"日本の地形・植生と都市の災害","q":[[4,1],[4,4],[4,4],[4,4],[4,3]]}]},{"p":"第4部","n":"農林水産業","th":[{"id":"D01","t":"世界の農業地域と農業の成立","q":[[4,1],[4,4],[4,4],[4,2],[4,4],[4,1]]},{"id":"D02","t":"穀物・食料問題・農業のグローバル化","q":[[4,4],[4,4],[4,3],[4,4],[4,4],[4,4]]},{"id":"D03","t":"水産業","q":[[6,2],[4,4],[4,4]]},{"id":"D04","t":"農産物・水産物・林産物の統計","q":[[4,4],[4,4],[4,3],[4,4],[4,4],[4,2],[4,4],[4,4],[4,4],[6,3]]}]},{"p":"第5部","n":"資源・エネルギー・工業","th":[{"id":"E01","t":"資源・エネルギー","q":[[4,4],[4,3],[4,3],[4,4],[4,2]]},{"id":"E02","t":"工業の立地と発展","q":[[4,3],[4,4],[4,1],[4,2],[4,2],[4,2],[4,3],[4,4]]},{"id":"E03","t":"産業の立地・交通・グローバル化","q":[[4,3],[4,4],[4,1],[4,1],[4,2]]},{"id":"E04","t":"資源・工業の統計と各国の特色","q":[[4,4],[4,4],[4,4],[4,4],[4,4],[4,1],[4,4],[6,5],[4,1],[4,1]]}]},{"p":"第6部","n":"交通・通信・貿易・国際協力","th":[{"id":"F01","t":"交通（陸運・海運・空運）","q":[[4,1],[6,1],[4,1],[4,4]]},{"id":"F02","t":"貿易と経済統合","q":[[5,3],[4,4],[4,4],[4,2],[4,3],[4,2]]},{"id":"F03","t":"観光・通信と国際協力","q":[[6,3],[4,4],[4,2],[4,4],[4,3],[4,1],[4,2]]},{"id":"F04","t":"貿易・観光・通信の統計","q":[[4,4],[4,2],[4,4],[4,4],[4,4],[4,4],[4,1]]}]},{"p":"第7部","n":"人口・都市・村落","th":[{"id":"G01","t":"人口問題","q":[[4,2],[4,3]]},{"id":"G02","t":"都市の機能と都市問題","q":[[4,3],[4,4],[4,4],[4,1],[4,2],[4,3],[4,3]]},{"id":"G03","t":"村落の立地と形態","q":[[4,4],[4,2]]},{"id":"G04","t":"都市の立地・機能と世界都市","q":[[4,1],[4,1],[4,3],[6,1],[4,4],[4,1]]},{"id":"G05","t":"都市計画と都市・人口の諸問題","q":[[6,4],[4,4],[4,3],[4,4],[4,3],[4,1],[4,1],[4,3]]},{"id":"G06","t":"都市圏・人口構成の読み取り","q":[[4,4],[4,1],[4,4],[4,4],[4,4]]}]},{"p":"第8部","n":"生活文化・民族・国家","th":[{"id":"H01","t":"民族・宗教・言語と生活文化","q":[[4,1],[4,2],[4,1],[4,3],[4,4],[4,3],[4,3],[4,4]]},{"id":"H02","t":"衣食住と宗教","q":[[4,2],[4,3],[4,4],[4,4],[4,4],[6,5]]},{"id":"H03","t":"民族問題・難民・国家","q":[[4,3],[4,4],[4,4],[6,5],[4,3],[6,5],[4,4],[4,4],[4,4],[4,4]]},{"id":"H04","t":"宗教・言語の分布と生活","q":[[4,4],[4,4],[4,2],[4,4],[4,4]]}]},{"p":"第9部","n":"地誌","th":[{"id":"I01","t":"東アジア（中国）","q":[[4,3],[6,3],[4,3],[4,2],[4,4],[4,4],[4,4]]},{"id":"I02","t":"南アジア・東南アジア","q":[[4,4],[4,4],[4,4],[4,1],[4,1],[4,4]]},{"id":"I03","t":"西アジア・アフリカ","q":[[4,3],[6,4],[6,2],[4,3],[4,4],[4,4],[4,1],[4,2]]},{"id":"I04","t":"ヨーロッパ・ロシア・北極圏","q":[[4,1],[4,4],[6,3],[4,2],[4,2],[4,1],[6,4],[4,4],[4,4],[4,4]]},{"id":"I05","t":"アングロアメリカ","q":[[6,6],[4,2],[4,4],[6,4]]},{"id":"I06","t":"ラテンアメリカ","q":[[4,4],[4,1],[6,2],[4,3]]},{"id":"I07","t":"オセアニア・南極","q":[[4,1],[4,2],[6,5],[6,5],[4,1],[4,4],[4,2]]},{"id":"I08","t":"ロシアと周辺諸国","q":[[4,4],[4,4],[4,4],[4,2],[4,4],[6,2]]},{"id":"I09","t":"地域比較と旧植民地のつながり","q":[[4,4],[4,4],[6,3],[4,1],[4,4],[4,3],[4,4]]}]},{"p":"第10部","n":"地図と地理情報","th":[{"id":"J01","t":"地球と地図（図法・時差）","q":[[4,4],[4,4],[4,2],[4,1],[4,3],[4,4]]},{"id":"J02","t":"地形図の読み取り","q":[[4,4],[4,4]]},{"id":"J03","t":"主題図・GIS・地域調査","q":[[4,1],[4,1],[4,1],[4,2],[4,4],[6,1]]},{"id":"J04","t":"地図・統計の読み取り演習","q":[[4,1],[4,3],[4,3],[4,4],[4,4]]}]}]},{"id":"seibutsu-k","subject":"生物基礎","name":"知識編","cls":"c-sk","data":[{"p":"第1問","n":"細胞と遺伝子","th":[{"id":"1-1","t":"生物の共通性と細胞の構造","q":[[6,4,"1-1",1],[5,2,"1-2",1],[5,4,"2",2],[5,5,"3-1",3],[4,1,"3-2",3],[5,3,"4-1",4],[4,2,"4-2",4],[4,4,"4-3",4],[4,1,"5",5],[4,1,"6",6],[3,1,"7-1",7],[4,3,"7-2",7]],"pt":{"1":"原核細胞・真核細胞の構造と共通物質","2":"宿題プリントの誤りを探す","3":"細胞小器官と細胞の構成成分","4":"原核細胞と真核細胞，細胞内共生説","5":"生物の細胞の構造（表から生物を特定）","6":"細胞説の確立に関わった人物","7":"顕微鏡の使い方と倍率"}},{"id":"1-2","t":"代謝とエネルギー（ATP・酵素・光合成と呼吸）","q":[[5,4,"8-1",8],[3,1,"8-2",8],[4,3,"9-1",9],[5,2,"9-2",9],[5,2,"10",10],[4,2,"11",11],[4,1,"12",12],[4,3,"13-1",13],[4,2,"13-2",13],[4,1,"13-3",13],[4,2,"13-4",13],[4,4,"13-5",13],[4,1,"14-1",14],[4,1,"14-2",14],[5,3,"15-1",15],[5,1,"15-2",15],[4,2,"15-3",15]],"pt":{"8":"酵素とATP","9":"光合成・呼吸と同化・異化","10":"酵素の性質","11":"光合成と呼吸","12":"ATPの構造とはたらき","13":"光合成と呼吸の比較","14":"代謝・同化・異化とATPの構造","15":"肝臓抽出液と酸化マンガンによる実験"}},{"id":"1-3","t":"DNAと細胞周期（構造・遺伝子の本体・複製・分裂）","q":[[6,[2,6],"16(1)",16,"16-0"],[6,[2,6],"16(2)",16,"16-0"],[5,2,"17-1",17],[4,3,"17-2",17],[4,4,"18-1",18],[4,2,"18-2",18],[4,1,"19-1",19],[4,1,"19-2",19],[4,1,"19-3",19],[5,1,"20",20],[4,1,"21-1",21],[4,1,"21-2",21],[6,1,"21-3",21],[5,5,"22-1",22],[4,2,"22-2",22],[6,4,"22-3",22],[4,1,"23-1",23],[4,1,"23-2",23]],"pt":{"16":"遺伝子の本体を明らかにした研究","17":"体細胞分裂の各時期（図）","18":"遺伝情報・染色体とDNAの記述","19":"複製中のDNAと相補的な塩基","20":"塩基の割合の比（複製の前後）","21":"DNAの構造と塩基配列","22":"ヒトの染色体とDNA","23":"遺伝子の本体の研究の歴史"}},{"id":"1-4","t":"遺伝情報の発現（転写・翻訳・ゲノム・分化）","q":[[5,3,"24-1",24],[5,3,"24-2",24],[4,4,"25-1",25],[9,5,"25-2",25],[6,1,"26-1",26],[6,2,"26-2",26],[5,2,"26-3",26],[4,2,"27-1",27],[4,1,"27-2",27],[4,1,"27-3",27],[4,3,"28-1",28],[3,1,"28-2",28],[4,3,"29-1",29],[4,3,"29-2",29],[4,4,"30-1",30],[4,2,"30-2",30]],"pt":{"24":"DNAの塩基の割合とアミノ酸の数","25":"転写に必要な物質とコドンの数","26":"転写と翻訳","27":"翻訳のしくみ（コドンとアミノ酸の数）","28":"同じ個体の細胞は何が同じで，何が違うか","29":"遺伝子の発現とタンパク質","30":"タンパク質合成の流れとアミノ酸の数"}}]},{"p":"第2問","n":"ヒトの体内環境の維持","th":[{"id":"2-1","t":"体液・循環・血液","q":[[5,4,"31-1",31],[6,5,"31-2",31],[5,2,"32-1",32],[4,4,"32-2",32],[3,1,"32-3",32],[4,3,"33-1",33],[5,2,"33-2",33],[5,4,"33-3",33],[4,1,"34",34],[4,1,"35",35],[4,1,"36-1",36],[4,1,"36-2",36]],"pt":{"31":"血液の成分と凝固","32":"心臓と血管（図で循環を確かめる）","33":"酸素解離曲線（グラフ選択）と血液の記述","34":"血液の成分","35":"血管と循環","36":"体液の種類とリンパ液の流れ"}},{"id":"2-2","t":"腎臓・肝臓・体液の調節","q":[[8,4,"37-1",37],[4,2,"37-2",37],[4,3,"37-3",37],[6,2,"38-1",38],[5,2,"38-2",38],[4,1,"39-1",39],[5,3,"39-2",39],[4,2,"40",40],[4,1,"41",41],[4,1,"42-1",42],[4,2,"42-2",42]],"pt":{"37":"腎臓のはたらき","38":"尿管を流れる物質と体液の関係","39":"バソプレシンとゾウリムシの収縮胞","40":"腎臓のしくみ","41":"肝臓のはたらき","42":"体液の塩分濃度の調節"}},{"id":"2-3","t":"神経・内分泌による調節","q":[[5,3,"43-1",43],[4,3,"43-2",43],[6,2,"44-1",44],[8,1,"44-2",44],[8,2,"45-1",45],[4,1,"45-2",45],[6,3,"45-3",45],[4,1,"46-1",46],[6,2,"46-2",46],[4,1,"46-3",46],[4,1,"47",47],[4,1,"48",48],[4,1,"49",49],[5,3,"50",50],[4,1,"51-1",51],[4,1,"51-2",51],[4,1,"52-1",52],[4,1,"52-2",52],[4,1,"52-3",52],[4,1,"53",53]],"pt":{"43":"自律神経のはたらき","44":"内分泌腺とホルモン","45":"体温調節","46":"ホルモンの作用と調節（総合）","47":"興奮・緊張時の体内環境の応答","48":"神経系の構成と自律神経","49":"脳の各部のはたらき","50":"自律神経の作用（誤りを選ぶ）","51":"ホルモンの作用","52":"血糖濃度の調節（空欄補充）","53":"体温の調節（空欄補充）"}},{"id":"2-4","t":"免疫","q":[[5,3,"54-1",54],[5,2,"54-2",54],[6,4,"54-3",54],[4,1,"55-1",55],[4,4,"55-2",55],[4,2,"56-1",56],[4,4,"56-2",56],[4,1,"57-1",57],[4,2,"57-2",57],[4,2,"57-3",57],[5,2,"58",58],[4,2,"59-1",59],[4,2,"59-2",59],[5,3,"60",60],[7,4,"61",61],[4,1,"62",62],[4,1,"63",63]],"pt":{"54":"免疫の基本（自然免疫・抗体産生の経路）","55":"免疫細胞の流れ","56":"アナフィラキシーと免疫（共通テスト型）","57":"免疫の流れ（図の空欄を埋める）","58":"自然免疫に関する記述","59":"アナフィラキシーと免疫の異常","60":"傷口付近で起こる防御反応","61":"自然免疫・適応免疫の分類","62":"適応免疫の用語","63":"食作用をもつ細胞"}}]},{"p":"第3問","n":"生物の多様性と生態系","th":[{"id":"3-1","t":"バイオームと気候","q":[[7,6,"64-1",64],[4,2,"64-2",64],[4,2,"65",65],[7,4,"66",66],[4,1,"67",67],[4,1,"68",68],[4,1,"69",69],[4,2,"70-1",70],[4,3,"70-2",70]],"pt":{"64":"日本のバイオームの分布","65":"植生・相観・優占種","66":"森林・草原・荒原","67":"バイオームと代表種","68":"日本のバイオームの垂直分布（本州中部）","69":"バイオームと特徴の対応","70":"暖かさの指数（計算）"}},{"id":"3-2","t":"遷移と森林","q":[[8,7,"71-1",71],[4,1,"71-2",71],[4,1,"72",72],[4,1,"73",73],[4,1,"74",74],[4,1,"75-1",75],[4,1,"75-2",75],[4,1,"76",76]],"pt":{"71":"一次遷移と二次遷移","72":"遷移の用語","73":"森林の階層構造","74":"陽樹・陰樹と光","75":"陽樹と遷移の最終段階","76":"初期に出現する植物と後期に出現する植物"}},{"id":"3-3","t":"生態系の物質循環とエネルギー","q":[[8,3,"77-1",77],[7,1,"77-2",77],[4,1,"77-3",77],[5,2,"78-1",78],[4,2,"78-2",78],[4,1,"79",79],[4,3,"80",80],[4,1,"81",81],[4,2,"82-1",82],[4,1,"82-2",82],[4,1,"83",83]],"pt":{"77":"窒素の循環","78":"エネルギーの流れ","79":"炭素の循環","80":"生産者・消費者・分解者","81":"栄養段階と生態ピラミッド","82":"生態系の構成と食物網","83":"生態系での有機物収支"}},{"id":"3-4","t":"生物多様性と保全","q":[[4,2,"84-1",84],[8,8,"84-2",84],[4,3,"85",85],[4,2,"86-1",86],[3,1,"86-2",86],[4,2,"87",87],[4,1,"88",88],[3,1,"89-1",89],[4,1,"89-2",89],[4,1,"90-1",90],[5,5,"90-2",90],[6,3,"91",91]],"pt":{"84":"キーストーン種","85":"生物濃縮","86":"里山の定義と管理の影響","87":"外来生物が関わっていない記述","88":"生態系の保全と人間活動","89":"キーストーン種と生態系のバランス","90":"生態系の復元力と富栄養化","91":"外来生物の影響"}}]}]},{"id":"seibutsu-s","subject":"生物基礎","name":"思考編","cls":"c-ss","data":[{"p":"第1問","n":"細胞と遺伝子","th":[{"id":"1-1","t":"生物の共通性と細胞の構造","q":[[4,2,"1-1",1],[5,3,"1-2",1],[3,3,"1-3",1],[4,3,"2",2],[4,2,"3",3],[4,3,"4-1",4],[4,3,"4-2",4],[3,1,"4-3",4]],"pt":{"1":"ミクロメーターによる測定","2":"ミクロメーターで細胞の大きさを測る","3":"細胞の大きさの比較（面積の計算）","4":"細胞の大きさから細胞の数を見積もる"}},{"id":"1-2","t":"代謝とエネルギー（ATP・酵素・光合成と呼吸）","q":[[4,2,"5-1",5],[3,3,"5-2",5],[3,1,"5-3",5],[9,4,"6",6],[8,5,"7",7],[6,1,"8-1",8],[6,3,"8-2",8],[6,2,"8-3",8],[5,5,"9-1",9],[7,2,"9-2",9]],"pt":{"5":"酵素の反応速度（グラフ）","6":"酵素の性質を調べる実験（対照実験）","7":"藻類の共生と遺伝子の発現","8":"試験管のイラストから酵素の性質を読む","9":"探究の過程と対照実験"}},{"id":"1-3","t":"DNAと細胞周期（構造・遺伝子の本体・複製・分裂）","q":[[6,2,"10-1",10],[6,2,"10-2",10],[4,4,"11-1",11],[5,4,"11-2",11],[4,1,"12-1",12],[4,2,"12-2",12],[4,1,"12-3",12],[4,2,"13-1",13],[5,1,"13-2",13],[4,3,"14-1",14],[4,1,"14-2",14],[4,1,"14-3",14],[7,4,"15-1",15],[4,1,"15-2",15],[4,2,"16-1",16],[4,1,"16-2",16],[3,2,"16-3",16],[4,1,"17-1",17],[3,1,"17-2",17],[4,1,"18",18],[6,2,"19-1",19],[6,4,"19-2",19],[4,1,"20-1",20],[4,2,"20-2",20],[3,3,"20-3",20],[6,3,"21-1",21],[6,5,"21-2",21],[5,3,"21-3",21],[5,1,"21-4",21],[3,2,"22-1",22],[3,3,"22-2",22],[3,1,"22-3",22],[4,1,"23-1",23],[4,1,"23-2",23]],"pt":{"10":"細胞周期の長さ","11":"薬剤の作用と細胞周期の停止","12":"フローサイトメトリー（DNA量のヒストグラム）","13":"物質Aの取り込みとDNA量","14":"半保存的複製（メセルソンとスタールの実験）","15":"遺伝子の本体を探る実験","16":"グリフィスの実験（図から結論を導く）","17":"DNAポリメラーゼの実験とグラフの考察","18":"細胞周期とタンパク質の発現（X・Y）","19":"分裂期の各時期の長さと細胞周期","20":"メセルソンとスタールの実験（複製モデルの検証）","21":"DNAの塩基組成とDNA量（表の読み取り）","22":"発光する細胞の実験（形質転換型の論理）","23":"細胞融合の実験と細胞周期のチェックポイント"}},{"id":"1-4","t":"遺伝情報の発現（転写・翻訳・ゲノム・分化）","q":[[6,4,"24",24],[6,3,"25",25],[4,4,"26-1",26],[7,7,"26-2",26],[5,2,"26-3",26],[7,[2,5],"27-1(1)",27,"27-0"],[7,[2,5],"27-1(2)",27,"27-0"],[8,3,"27-2",27],[6,3,"28-1",28],[4,2,"28-2",28],[5,2,"28-3",28],[3,2,"29-1",29],[3,1,"29-2",29],[3,1,"29-3",29],[4,3,"30-1",30],[8,[3,8],"30-2(1)",30,"30-1"],[8,[3,8],"30-2(2)",30,"30-1"],[4,1,"31",31]],"pt":{"24":"合成RNAとアミノ酸の対応","25":"転写・翻訳を試験管内で再現する実験","26":"繊毛上皮細胞と遺伝子（共通テスト型）","27":"タンポポの再生と実験の設計（共通テスト型）","28":"DNAの抽出実験（共通テスト型）","29":"mRNAの検出から遺伝子の使い分けを読む","30":"mRNAの繰り返し配列とアミノ酸の対応","31":"遺伝暗号の解読（ヒスチジンとリシンのコドン）"}}]},{"p":"第2問","n":"ヒトの体内環境の維持","th":[{"id":"2-1","t":"体液・循環・血液","q":[[6,4,"32-1",32],[5,3,"32-2",32],[4,3,"32-3",32],[6,4,"33-1",33],[5,[1,4],"33-2(1)",33,"33-1"],[5,[1,4],"33-2(2)",33,"33-1"],[5,3,"33-3",33],[4,3,"34",34],[6,1,"35-1",35],[6,4,"35-2",35],[6,5,"35-3",35]],"pt":{"32":"酸素解離曲線と酸素の運搬量","33":"血流配分と心拍出量（表の読み取り）","34":"血しょうの量を試薬で推定する","35":"血液凝固の実験の読み方"}},{"id":"2-2","t":"腎臓・肝臓・体液の調節","q":[[4,2,"36-1",36],[4,2,"36-2",36],[4,1,"36-3",36],[5,2,"37-1",37],[6,5,"37-2",37],[4,1,"38",38]],"pt":{"36":"腎臓のろ過・再吸収と血糖（グラフ・共通テスト型）","37":"淡水魚と海水魚の塩類濃度の調節（共通テスト型）","38":"赤血球と食塩水（浸透）"}},{"id":"2-3","t":"神経・内分泌による調節","q":[[4,1,"39-1",39],[7,6,"39-2",39],[4,3,"39-3",39],[4,2,"40-1",40],[4,1,"40-2",40],[4,2,"40-3",40],[4,1,"41-1",41],[3,1,"41-2",41],[3,1,"42-1",42],[4,1,"42-2",42]],"pt":{"39":"血糖濃度の調節（グラフの読み取り）","40":"ホルモンの分泌調節（負のフィードバック・グラフ）","41":"阻害薬を用いた血糖の実験","42":"グルコース投与後のホルモン変化"}},{"id":"2-4","t":"免疫","q":[[4,2,"43-1",43],[3,1,"43-2",43],[6,3,"44-1",44],[4,1,"44-2",44],[6,1,"45-1",45],[9,2,"45-2",45],[5,4,"46",46],[8,7,"47-1",47],[7,4,"47-2",47],[8,2,"48",48],[7,6,"49-1",49],[4,3,"49-2",49],[8,1,"50",50],[4,2,"51-1",51],[4,1,"51-2",51],[4,1,"51-3",51],[4,1,"52-1",52],[3,3,"52-2",52],[4,1,"52-3",52]],"pt":{"43":"抗体産生の時間変化","44":"好中球のはたらき（実験考察）","45":"移植・毒素と免疫（実験考察）","46":"B細胞の分化に必要な要素（実験）","47":"ウイルス感染とはたらく免疫細胞（グラフ）","48":"免疫の実験考察","49":"予防接種の効果をデータから考える（共通テスト型）","50":"欠損実験の符号（促進と抑制）","51":"ヌードマウスの移植実験と胸腺のはたらき","52":"皮膚移植と記憶・免疫寛容"}}]},{"p":"第3問","n":"生物の多様性と生態系","th":[{"id":"3-1","t":"バイオームと気候","q":[[5,2,"53-1",53],[4,2,"53-2",53],[4,2,"53-3",53],[3,2,"54-1",54],[3,1,"54-2",54],[4,1,"54-3",54],[4,2,"55-1",55],[4,3,"55-2",55]],"pt":{"53":"バイオーム分布図の読み取り","54":"植生指標Nとバイオーム（共通テスト型）","55":"森林限界と温暖化（計算）"}},{"id":"3-2","t":"遷移と森林","q":[[4,1,"56-1",56],[4,2,"56-2",56],[4,3,"57",57],[4,1,"58-1",58],[4,2,"58-2",58],[4,3,"59-1",59],[3,2,"59-2",59],[4,2,"60",60]],"pt":{"56":"陽葉・陰葉と光補償点","57":"湖沼から始まる遷移","58":"夏緑樹林の林床と春植物","59":"枯死個体の大きさから優占種を考える","60":"湿原の遷移"}},{"id":"3-3","t":"生態系の物質循環とエネルギー","q":[[4,2,"61-1",61],[4,1,"61-2",61],[4,1,"61-3",61],[4,1,"62",62]],"pt":{"61":"エネルギー効率の計算","62":"窒素の循環（過程の名称）"}},{"id":"3-4","t":"生物多様性と保全","q":[[4,2,"63",63],[6,3,"64",64],[4,1,"65",65]],"pt":{"63":"草原の管理と希少種（グラフ）","64":"下刈りと木本植物の調査（表の読み取り）","65":"中規模かく乱説（グラフ）"}}]}]}];
+const REL={"1":[7,3],"2":[7],"3":[7,3],"4":[7],"5":[10,8],"6":[15,10],"7":[13,4],"8":[15,10],"9":[15,10],"10":[17,18],"11":[17,18],"12":[18,17],"13":[18,19],"14":[19,20],"15":[23,16],"16":[23,16],"17":[19,20],"18":[17,18],"19":[17,18],"20":[19,21],"21":[21,22],"22":[16,23],"23":[18,17],"24":[27,25],"25":[30,26],"26":[27,24,1],"27":[28,29],"28":[28,29],"29":[28,29],"30":[27,25],"31":[27,25],"32":[33,34],"33":[32,35],"34":[34,36],"35":[31,34],"36":[37,40,38],"37":[39,42],"38":[39,42],"39":[52,47],"40":[44,51],"41":[52,51],"42":[52,46],"43":[54,62],"44":[63,58],"45":[62,59],"46":[54,55],"47":[58,55],"48":[62,54],"49":[62,54],"50":[61,55],"51":[57,62],"52":[62,59],"53":[69,67,64],"54":[65,69],"55":[68,70],"56":[74,75],"57":[72,71],"58":[73,67],"59":[74,76],"60":[72,71],"61":[78,83,81],"62":[77],"63":[86,88],"64":[86,88],"65":[90,86]};   // 思考編の問題番号 → 知識編で復習するとよい問題番号
+const KP={"1":{"th":"1-1","t":"原核細胞・真核細胞の構造と共通物質"},"2":{"th":"1-1","t":"宿題プリントの誤りを探す"},"3":{"th":"1-1","t":"細胞小器官と細胞の構成成分"},"4":{"th":"1-1","t":"原核細胞と真核細胞，細胞内共生説"},"5":{"th":"1-1","t":"生物の細胞の構造（表から生物を特定）"},"6":{"th":"1-1","t":"細胞説の確立に関わった人物"},"7":{"th":"1-1","t":"顕微鏡の使い方と倍率"},"8":{"th":"1-2","t":"酵素とATP"},"9":{"th":"1-2","t":"光合成・呼吸と同化・異化"},"10":{"th":"1-2","t":"酵素の性質"},"11":{"th":"1-2","t":"光合成と呼吸"},"12":{"th":"1-2","t":"ATPの構造とはたらき"},"13":{"th":"1-2","t":"光合成と呼吸の比較"},"14":{"th":"1-2","t":"代謝・同化・異化とATPの構造"},"15":{"th":"1-2","t":"肝臓抽出液と酸化マンガンによる実験"},"16":{"th":"1-3","t":"遺伝子の本体を明らかにした研究"},"17":{"th":"1-3","t":"体細胞分裂の各時期（図）"},"18":{"th":"1-3","t":"遺伝情報・染色体とDNAの記述"},"19":{"th":"1-3","t":"複製中のDNAと相補的な塩基"},"20":{"th":"1-3","t":"塩基の割合の比（複製の前後）"},"21":{"th":"1-3","t":"DNAの構造と塩基配列"},"22":{"th":"1-3","t":"ヒトの染色体とDNA"},"23":{"th":"1-3","t":"遺伝子の本体の研究の歴史"},"24":{"th":"1-4","t":"DNAの塩基の割合とアミノ酸の数"},"25":{"th":"1-4","t":"転写に必要な物質とコドンの数"},"26":{"th":"1-4","t":"転写と翻訳"},"27":{"th":"1-4","t":"翻訳のしくみ（コドンとアミノ酸の数）"},"28":{"th":"1-4","t":"同じ個体の細胞は何が同じで，何が違うか"},"29":{"th":"1-4","t":"遺伝子の発現とタンパク質"},"30":{"th":"1-4","t":"タンパク質合成の流れとアミノ酸の数"},"31":{"th":"2-1","t":"血液の成分と凝固"},"32":{"th":"2-1","t":"心臓と血管（図で循環を確かめる）"},"33":{"th":"2-1","t":"酸素解離曲線（グラフ選択）と血液の記述"},"34":{"th":"2-1","t":"血液の成分"},"35":{"th":"2-1","t":"血管と循環"},"36":{"th":"2-1","t":"体液の種類とリンパ液の流れ"},"37":{"th":"2-2","t":"腎臓のはたらき"},"38":{"th":"2-2","t":"尿管を流れる物質と体液の関係"},"39":{"th":"2-2","t":"バソプレシンとゾウリムシの収縮胞"},"40":{"th":"2-2","t":"腎臓のしくみ"},"41":{"th":"2-2","t":"肝臓のはたらき"},"42":{"th":"2-2","t":"体液の塩分濃度の調節"},"43":{"th":"2-3","t":"自律神経のはたらき"},"44":{"th":"2-3","t":"内分泌腺とホルモン"},"45":{"th":"2-3","t":"体温調節"},"46":{"th":"2-3","t":"ホルモンの作用と調節（総合）"},"47":{"th":"2-3","t":"興奮・緊張時の体内環境の応答"},"48":{"th":"2-3","t":"神経系の構成と自律神経"},"49":{"th":"2-3","t":"脳の各部のはたらき"},"50":{"th":"2-3","t":"自律神経の作用（誤りを選ぶ）"},"51":{"th":"2-3","t":"ホルモンの作用"},"52":{"th":"2-3","t":"血糖濃度の調節（空欄補充）"},"53":{"th":"2-3","t":"体温の調節（空欄補充）"},"54":{"th":"2-4","t":"免疫の基本（自然免疫・抗体産生の経路）"},"55":{"th":"2-4","t":"免疫細胞の流れ"},"56":{"th":"2-4","t":"アナフィラキシーと免疫（共通テスト型）"},"57":{"th":"2-4","t":"免疫の流れ（図の空欄を埋める）"},"58":{"th":"2-4","t":"自然免疫に関する記述"},"59":{"th":"2-4","t":"アナフィラキシーと免疫の異常"},"60":{"th":"2-4","t":"傷口付近で起こる防御反応"},"61":{"th":"2-4","t":"自然免疫・適応免疫の分類"},"62":{"th":"2-4","t":"適応免疫の用語"},"63":{"th":"2-4","t":"食作用をもつ細胞"},"64":{"th":"3-1","t":"日本のバイオームの分布"},"65":{"th":"3-1","t":"植生・相観・優占種"},"66":{"th":"3-1","t":"森林・草原・荒原"},"67":{"th":"3-1","t":"バイオームと代表種"},"68":{"th":"3-1","t":"日本のバイオームの垂直分布（本州中部）"},"69":{"th":"3-1","t":"バイオームと特徴の対応"},"70":{"th":"3-1","t":"暖かさの指数（計算）"},"71":{"th":"3-2","t":"一次遷移と二次遷移"},"72":{"th":"3-2","t":"遷移の用語"},"73":{"th":"3-2","t":"森林の階層構造"},"74":{"th":"3-2","t":"陽樹・陰樹と光"},"75":{"th":"3-2","t":"陽樹と遷移の最終段階"},"76":{"th":"3-2","t":"初期に出現する植物と後期に出現する植物"},"77":{"th":"3-3","t":"窒素の循環"},"78":{"th":"3-3","t":"エネルギーの流れ"},"79":{"th":"3-3","t":"炭素の循環"},"80":{"th":"3-3","t":"生産者・消費者・分解者"},"81":{"th":"3-3","t":"栄養段階と生態ピラミッド"},"82":{"th":"3-3","t":"生態系の構成と食物網"},"83":{"th":"3-3","t":"生態系での有機物収支"},"84":{"th":"3-4","t":"キーストーン種"},"85":{"th":"3-4","t":"生物濃縮"},"86":{"th":"3-4","t":"里山の定義と管理の影響"},"87":{"th":"3-4","t":"外来生物が関わっていない記述"},"88":{"th":"3-4","t":"生態系の保全と人間活動"},"89":{"th":"3-4","t":"キーストーン種と生態系のバランス"},"90":{"th":"3-4","t":"生態系の復元力と富栄養化"},"91":{"th":"3-4","t":"外来生物の影響"}};     // 知識編の問題番号 → {th,t}
+const SUBJECTS=[{n:'生物基礎'},{n:'化学基礎'},{n:'政経'},{n:'地理'}];
+const MARU='①②③④⑤⑥⑦⑧⑨';const $=s=>document.querySelector(s);
+BOOKS.forEach(b=>{b.TH={};b.data.forEach((p,pi)=>p.th.forEach(t=>b.TH[t.id]={...t,pi,p:p.p,pn:p.n}))});
+const BY=id=>BOOKS.find(b=>b.id===id);
+// ---------- 設定・状態 ----------
+let settings={subjects:{生物基礎:true,化学基礎:true,政経:true,地理:true},hint:true,book:'seibutsu-k'};
+try{const s=JSON.parse(localStorage.getItem('mk_settings_v1')||'null');if(s){settings={...settings,...s,subjects:{...settings.subjects,...(s.subjects||{})}}}}catch(e){}
+function saveSettings(){try{localStorage.setItem('mk_settings_v1',JSON.stringify(settings))}catch(e){}}
+const visible=()=>BOOKS.filter(b=>settings.subjects[b.subject]);
+let view='mark',marksAll={},partAll={},gradedAll={},attempts=[],store=null,deleting=null;
+try{const d=JSON.parse(localStorage.getItem('marks_draft_v2')||'null');if(d){marksAll=d.marks||{};partAll=d.part||{}}}catch(e){}
+function saveDraft(){try{localStorage.setItem('marks_draft_v2',JSON.stringify({marks:marksAll,part:partAll}))}catch(e){}}
+function cur(){const v=visible();let b=v.find(x=>x.id===settings.book);if(!b&&v.length){b=v[0];settings.book=b.id}return b}
+const marks=()=>marksAll[cur().id]||(marksAll[cur().id]={});
+const getPart=()=>partAll[cur().id]||0;
+const keyOf=(t,i)=>t.id+'-'+(i+1);
+// ---------- 保存 ----------
+const LS='marks_attempts_v1';
+function lsLoad(){try{return JSON.parse(localStorage.getItem(LS)||'[]')}catch(e){return []}}
+function lsSave(){try{localStorage.setItem(LS,JSON.stringify(attempts))}catch(e){}}
+attempts=lsLoad();attempts.forEach(a=>{if(!a.book)a.book='chiri-k'});
+$('#store').textContent='記録はこの端末のブラウザに保存されます（Claudeにサインインしていると、どの端末からでも見られるように同期します）';
+(async()=>{try{const [db,user]=await Promise.all([window.claude?.use?.('db'),window.claude?.use?.('user')]);if(!db||!user)return;const uid=await user.id();if(!uid)return;
+ const col=db.collection('data/users/'+uid);store={col};let first=true;
+ const timer=setTimeout(()=>{$('#store').textContent='記録の同期先にまだ接続できません。この端末には保存されています。'},10000);
+ col.onSnapshot(snap=>{clearTimeout(timer);const remote=snap.docs.map(d=>({id:d.id,...d.data()}));remote.forEach(a=>{if(!a.book)a.book='chiri-k'});
+  if(first){first=false;const ids=new Set(remote.map(a=>a.id));const local=attempts.filter(a=>!ids.has(a.id));
+   (async()=>{for(const a of local){try{const {id,...body}=a;await col.doc(id).set(body)}catch(e){}}})();attempts=[...remote,...local]}else attempts=remote;
+  attempts.sort((a,b)=>a.at<b.at?-1:1);lsSave();$('#store').textContent='記録はあなたのアカウントに保存され、どの端末からでも見られます（本人だけが見られます）';renderAll()},
+ e=>{clearTimeout(timer);$('#store').textContent='同期できなかったため、この端末のブラウザに保存しています。'})}catch(e){}})();
+async function persist(a){attempts.push(a);lsSave();if(store){const {id,...body}=a;try{await store.col.doc(id).set(body)}catch(e){$('#msg').textContent='同期に失敗しました。この端末には保存されています。'}}}
+async function remove(id){attempts=attempts.filter(a=>a.id!==id);lsSave();if(store){try{await store.col.doc(id).delete()}catch(e){}}renderAll()}
+// ---------- タブ・教材 ----------
+const VIEWS=['mark','stat','hist','set'];
+function setView(k){view=k;VIEWS.forEach(j=>{$('#tab-'+j).setAttribute('aria-selected',j===k);$('#v-'+j).hidden=j!==k});$('#bar').hidden=k!=='mark';$('#books').hidden=$('#swipehint').hidden=(k==='set');renderAll()}
+VIEWS.forEach(k=>$('#tab-'+k).onclick=()=>setView(k));
+function renderBooks(){const v=visible();$('#books').innerHTML=v.map(b=>`<button class="bk ${b.cls}" role="tab" aria-selected="${b.id===settings.book}" data-id="${b.id}"><i></i>${b.subject}　${b.name}</button>`).join('');
+ document.querySelectorAll('.bk').forEach(x=>x.onclick=()=>gotoBook(x.dataset.id,0));
+ const sel=$('.bk[aria-selected="true"]');if(sel)sel.scrollIntoView({inline:'center',block:'nearest'});
+ $('#swipehint').textContent=v.length>1?'← 左右にスワイプすると、ほかの教材のマークシートに切り替わります →':'「設定」で選択科目を増やすと、ほかの教材も表示されます';}
+function gotoBook(id,dir){if(id===settings.book)return;settings.book=id;saveSettings();deleting=null;renderAll();const el=$('#pager');el.classList.remove('slideL','slideR');void el.offsetWidth;if(dir)el.classList.add(dir>0?'slideL':'slideR');window.scrollTo({top:0})}
+function stepBook(d){const v=visible();if(v.length<2)return;const i=v.findIndex(b=>b.id===settings.book);const n=(i+d+v.length)%v.length;gotoBook(v[n].id,d)}
+// スワイプ
+let sx=null,sy=0,st=0;
+document.addEventListener('touchstart',e=>{if(e.touches.length!==1||view==='set'){sx=null;return}if(e.target.closest('.tbl,select,input,.books')){sx=null;return}sx=e.touches[0].clientX;sy=e.touches[0].clientY;st=Date.now()},{passive:true});
+document.addEventListener('touchend',e=>{if(sx==null)return;const t=e.changedTouches[0],dx=t.clientX-sx,dy=t.clientY-sy;const ok=Math.abs(dx)>70&&Math.abs(dx)>1.6*Math.abs(dy)&&Date.now()-st<800;sx=null;if(ok)stepBook(dx<0?1:-1)},{passive:true});
+document.addEventListener('keydown',e=>{if(/INPUT|SELECT|TEXTAREA/.test((e.target||{}).tagName))return;if(view!=='set'&&(e.key==='ArrowRight'||e.key==='ArrowLeft'))stepBook(e.key==='ArrowRight'?1:-1)});
+// ---------- 採点ロジック ----------
+function evalTheme(t){const m=marks();const res=t.q.map(()=>null);const groups={};
+ t.q.forEach((q,i)=>{if(Array.isArray(q[1])){const g=q[4]||('p'+q[3]);(groups[g]=groups[g]||[]).push(i)}});
+ t.q.forEach((q,i)=>{if(!Array.isArray(q[1]))res[i]=m[keyOf(t,i)]===q[1]});
+ for(const g in groups){const idx=groups[g];const a=t.q[idx[0]][1].slice().sort().join(',');const got=idx.map(i=>m[keyOf(t,i)]).sort().join(',');const ok=got===a&&idx.every(i=>m[keyOf(t,i)]);idx.forEach(i=>res[i]=ok)}
+ return res}
+const isAns=(q,v)=>Array.isArray(q[1])?q[1].includes(v):q[1]===v;
+// ---------- マーク画面 ----------
+function renderParts(){const B=cur(),part=getPart();$('#parts').innerHTML=B.data.map((p,i)=>`<button class="chip" aria-pressed="${i===part}" data-i="${i}">${p.p}<small>${p.n}</small></button>`).join('');
+ document.querySelectorAll('#parts .chip').forEach(b=>b.onclick=()=>{partAll[B.id]=+b.dataset.i;gradedAll[B.id]=null;saveDraft();renderMark()})}
+function renderMark(){const B=cur();if(!B){$('#sheet').innerHTML='<div class="empty">「設定」で選択科目を選んでください。</div>';$('#parts').innerHTML='';$('#ptitle').textContent='';$('#pinfo').textContent='';return}
+ document.getElementById('app').className='wrap '+B.cls;document.body.className=B.cls;
+ renderParts();const P=B.data[getPart()],graded=gradedAll[B.id]||null,m=marks();
+ $('#ptitle').textContent=P.p+'　'+P.n;const nq=P.th.reduce((s,t)=>s+t.q.length,0);$('#pinfo').textContent=`${P.th.length}テーマ・${nq}問`;
+ $('#sheet').innerHTML=P.th.map(t=>{const g=graded&&graded.themes[t.id];const ev=g?evalTheme(t):null;
+  return `<div class="theme" id="th-${B.id}-${t.id}"><div class="thead"><span class="tid">${t.id}</span><span class="ttl">${t.t}</span><span class="tscore">${g?g.c+' / '+g.n:''}</span></div>`+
+  t.q.map((q,i)=>{const k=keyOf(t,i),mv=m[k];let cls='',mk='';if(g){const ok=ev[i];cls=ok?'ok':'ng';mk=ok?'○':'×'}
+   return `<div class="row ${cls}"><span class="qn">${q[2]||k}</span><div class="bub" role="group" aria-label="${q[2]||k}の解答">`+Array.from({length:q[0]},(_,j)=>`<button class="b${g&&isAns(q,j+1)?' ans':''}" aria-pressed="${mv===j+1}" aria-label="${q[2]||k} ${MARU[j]}" data-k="${k}" data-v="${j+1}">${j+1}</button>`).join('')+`</div><span class="mk">${mk}</span></div>`}).join('')+'</div>'}).join('');
+ document.querySelectorAll('#sheet .b').forEach(b=>b.onclick=()=>{if(gradedAll[B.id])return;const k=b.dataset.k,v=+b.dataset.v,mm=marks();mm[k]=mm[k]===v?undefined:v;if(mm[k]===undefined)delete mm[k];saveDraft();
+  b.parentNode.querySelectorAll('.b').forEach(x=>x.setAttribute('aria-pressed',+x.dataset.v===mm[k]));updCount()});
+ updCount();renderResult();$('#grade').textContent=graded?'次の解答をはじめる':'採点して記録'}
+function updCount(){const B=cur();if(!B)return;const P=B.data[getPart()],m=marks();const keys=P.th.flatMap(t=>t.q.map((_,i)=>keyOf(t,i)));const n=keys.filter(k=>m[k]).length;$('#cnt').textContent=`${n} / ${keys.length}`;$('#grade').disabled=!gradedAll[B.id]&&n===0}
+const level=r=>r==null?'none':r<0.6?'weak':r<0.8?'mid':'good';const LV={weak:'苦手',mid:'要復習',good:'得意',none:'未挑戦'};
+// 知識編の問題ごとの最新結果（'ok'|'ng'|undefined）
+function problemStatus(B){const S={};const th={};
+ attempts.filter(a=>a.book===B.id).forEach(a=>{for(const [id,v] of Object.entries(a.themes||{})){const t=B.TH[id];if(!t)continue;const wr=new Set((v.w||[]));const per={};
+   t.q.forEach((q,i)=>{const g=q[3];if(g==null)return;per[g]=per[g]||{wrong:false};if(wr.has(keyOf(t,i)))per[g].wrong=true});
+   th[id]={at:a.at,per}}});
+ for(const id in th)for(const g in th[id].per)S[g]=th[id].per[g].wrong?'ng':'ok';return S}
+function wrongProblems(B,onlyLatest){const out=[];const lastByTheme={};
+ attempts.filter(a=>a.book===B.id).forEach(a=>{for(const [id,v] of Object.entries(a.themes||{}))lastByTheme[id]={at:a.at,v}});
+ for(const id in lastByTheme){const t=B.TH[id];if(!t)continue;const wr=new Set(lastByTheme[id].v.w||[]);const seen={};
+  t.q.forEach((q,i)=>{const g=q[3];if(g==null)return;if(wr.has(keyOf(t,i))&&!seen[g]){seen[g]=1;out.push({g,th:id,t:(t.pt||{})[g]||''})}})}
+ return out}
+function recsFor(g,KB,pst){return (REL[g]||[]).map(k=>({g:k,...(KP[k]||{}),st:pst[k]||'un'})).sort((a,b)=>({ng:0,un:1,ok:2}[a.st]-{ng:0,un:1,ok:2}[b.st]))}
+const STL={ng:'前回×',un:'未挑戦',ok:'前回○'};
+function hintHTML(B,items,title){ // 思考編のみ
+ const KB=BY('seibutsu-k');const pst=problemStatus(KB);
+ return `<div class="hint"><h4>${title}</h4><p class="sub">思考編の考察問題は，知識が土台です。次の知識編の問題を先に復習すると，解き直しやすくなります（知識編→思考編の案内はありません）。</p>`+
+ items.map(it=>`<div class="hitem"><b class="q">思考編 ${it.th}　問${it.g}</b>　${it.t}<div>`+recsFor(String(it.g),KB,pst).map(r=>`<div class="rec"><span class="st ${r.st}">${STL[r.st]}</span><span>知識編 ${r.th}　問${r.g}「${r.t}」</span><button class="go" data-kg="${r.g}" data-th="${r.th}">知識編を開く</button></div>`).join('')+`</div></div>`).join('')+`</div>`}
+function bindGo(root){root.querySelectorAll('.go').forEach(b=>b.onclick=()=>{const KB=BY('seibutsu-k');const t=KB.TH[b.dataset.th];partAll[KB.id]=t.pi;saveDraft();if(!visible().some(x=>x.id===KB.id)){settings.subjects[KB.subject]=true;saveSettings()}settings.book=KB.id;saveSettings();view='mark';gradedAll[KB.id]=null;setView('mark');setTimeout(()=>{const el=document.getElementById('th-'+KB.id+'-'+b.dataset.th);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})},60)})}
+function renderResult(){const B=cur();const graded=gradedAll[B.id];if(!graded){$('#result').innerHTML='';return}
+ const ts=Object.entries(graded.themes);const c=ts.reduce((s,[,v])=>s+v.c,0),n=ts.reduce((s,[,v])=>s+v.n,0);
+ let html=`<div class="result"><h3>採点結果　${c} / ${n}（${Math.round(c/n*100)}%）</h3><div class="rgrid">`+ts.map(([id,v])=>{const r=v.c/v.n,l=level(r);return `<div class="rcard"><div class="top"><span class="tid">${id}</span><b class="tscore">${v.c} / ${v.n}</b><span class="pill ${l}">${LV[l]}</span></div><div>${B.TH[id].t}</div>${v.w.length?`<div class="wrong">間違えた問題：${v.w.map(k=>{const t=B.TH[id];const i=+k.split('-').pop()-1;return (t.q[i]&&t.q[i][2])||k}).join('、')}</div>`:'<div class="wrong">全問正解</div>'}</div>`}).join('')+
+ `</div><p class="msg">緑の二重丸が正解です。間違えた問題は別冊の解答解説で確認しましょう。記録は「テーマ別成績」に反映されました。</p>`;
+ if(B.id==='seibutsu-s'&&settings.hint){const items=[];ts.forEach(([id,v])=>{const t=B.TH[id];const seen={};(v.w||[]).forEach(k=>{const i=+k.split('-').pop()-1;const g=t.q[i]&&t.q[i][3];if(g!=null&&!seen[g]){seen[g]=1;items.push({g,th:id,t:(t.pt||{})[g]||''})}})});
+  if(items.length)html+=hintHTML(B,items,'この間違いは，知識編のこの問題で復習しよう')}
+ $('#result').innerHTML=html+'</div>';bindGo($('#result'))}
+$('#grade').onclick=async()=>{const B=cur();const graded=gradedAll[B.id];const P=B.data[getPart()];
+ if(graded){const m=marks();for(const t of P.th)t.q.forEach((_,i)=>delete m[keyOf(t,i)]);gradedAll[B.id]=null;saveDraft();renderMark();window.scrollTo({top:0});return}
+ const themes={},m=marks();
+ for(const t of P.th){const ks=t.q.map((_,i)=>keyOf(t,i));if(!ks.some(k=>m[k]))continue;const ev=evalTheme(t);let c=0,w=[];ev.forEach((ok,i)=>{if(ok)c++;else w.push(ks[i])});themes[t.id]={c,n:t.q.length,w}}
+ gradedAll[B.id]={themes};const a={id:'a'+Date.now().toString(36)+Math.random().toString(36).slice(2,6),at:new Date().toISOString(),book:B.id,part:P.p,themes};
+ renderMark();$('#result').scrollIntoView({behavior:'smooth',block:'start'});await persist(a)};
+$('#clear').onclick=()=>{const B=cur();if(gradedAll[B.id])return;const m=marks();for(const t of B.data[getPart()].th)t.q.forEach((_,i)=>delete m[keyOf(t,i)]);saveDraft();renderMark()};
+// ---------- 成績 ----------
+function themeStats(B){const S={};for(const id in B.TH)S[id]={hist:[]};
+ for(const a of attempts.filter(a=>a.book===B.id))for(const [id,v] of Object.entries(a.themes||{}))if(S[id])S[id].hist.push({at:a.at,r:v.c/v.n,c:v.c,n:v.n});
+ for(const id in S){const h=S[id].hist;S[id].last=h.length?h[h.length-1].r:null;S[id].best=h.length?Math.max(...h.map(x=>x.r)):null;S[id].lastc=h.length?h[h.length-1]:null}return S}
+function spark(h){if(h.length<2)return'';const w=80,hh=22,xs=h.slice(-8);const pts=xs.map((x,i)=>`${(i/(xs.length-1)*(w-6)+3).toFixed(1)},${(hh-3-x.r*(hh-6)).toFixed(1)}`);const last=pts[pts.length-1].split(',');
+ return `<svg class="sp" width="${w}" height="${hh}" viewBox="0 0 ${w} ${hh}" aria-hidden="true"><line x1="3" x2="${w-3}" y1="${(hh-3-0.6*(hh-6)).toFixed(1)}" y2="${(hh-3-0.6*(hh-6)).toFixed(1)}" stroke="var(--line)" stroke-dasharray="2 2"/><polyline points="${pts.join(' ')}" fill="none" stroke="var(--teal)" stroke-width="1.8"/><circle cx="${last[0]}" cy="${last[1]}" r="2.6" fill="var(--teal)"/></svg>`}
+const pct=r=>r==null?'—':Math.round(r*100)+'%';
+function renderStat(){const B=cur();if(!B)return;const S=themeStats(B);const tried=Object.keys(S).filter(id=>S[id].last!=null);const at=attempts.filter(a=>a.book===B.id);
+ const tc=at.reduce((s,a)=>s+Object.values(a.themes||{}).reduce((x,v)=>x+v.c,0),0),tn=at.reduce((s,a)=>s+Object.values(a.themes||{}).reduce((x,v)=>x+v.n,0),0);const weak=tried.filter(id=>S[id].last<0.6);
+ $('#sum').innerHTML=`<div class="stat"><b>${tn?Math.round(tc/tn*100)+'%':'—'}</b><span>通算の正答率（${tc} / ${tn}問）</span></div><div class="stat"><b>${tried.length}<small style="font-size:14px"> / ${Object.keys(B.TH).length}</small></b><span>挑戦したテーマ</span></div><div class="stat"><b style="color:var(--bad)">${weak.length}</b><span>苦手テーマ（最新60%未満）</span></div><div class="stat"><b>${at.length}</b><span>採点した回数</span></div>`;
+ const ranked=tried.slice().sort((a,b)=>S[a].last-S[b].last||S[a].best-S[b].best).slice(0,5).filter(id=>S[id].last<0.8);
+ $('#weak').innerHTML=tried.length?(ranked.length?`<div class="weaklist"><h3>優先して復習するテーマ</h3><ol>${ranked.map(id=>`<li><span class="tid">${id}</span> ${B.TH[id].t}（${B.TH[id].p}）… 最新 ${S[id].lastc.c}/${S[id].lastc.n}</li>`).join('')}</ol></div>`:`<div class="weaklist" style="border-color:var(--good)"><h3 style="color:var(--good)">挑戦したテーマはすべて80%以上です</h3>まだ挑戦していない部に進みましょう。</div>`)
+  :`<div class="empty">${B.subject} ${B.name}の記録がまだありません。<br>「マーク」タブで部を選び、解答をマークして「採点して記録」を押すと、ここにテーマごとの正答率と苦手テーマが表示されます。</div>`;
+ // 思考編 → 知識編 のおすすめ
+ const hs=$('#hintStat');hs.innerHTML='';
+ if(B.id==='seibutsu-s'&&settings.hint){const wp=wrongProblems(B);if(wp.length){const KB=BY('seibutsu-k'),pst=problemStatus(KB),cnt={};
+   wp.forEach(w=>(REL[w.g]||[]).forEach(k=>{cnt[k]=cnt[k]||{n:0,from:[]};cnt[k].n++;cnt[k].from.push(w.g)}));
+  const rank=Object.keys(cnt).map(k=>({g:k,...KP[k],n:cnt[k].n,from:cnt[k].from,st:pst[k]||'un'})).sort((a,b)=>({ng:0,un:1,ok:2}[a.st]-{ng:0,un:1,ok:2}[b.st])||b.n-a.n).slice(0,8);
+  hs.innerHTML=`<div class="hint"><h4>知識編で復習したい問題（思考編の最新の間違いから）</h4><p class="sub">思考編で最後に間違えた${wp.length}問に関係する知識編の問題です。「前回×」「未挑戦」を優先して並べています。</p>`+rank.map(r=>`<div class="rec" style="padding:4px 0"><span class="st ${r.st}">${STL[r.st]}</span><span>知識編 ${r.th}　問${r.g}「${r.t}」<small style="color:var(--sub)">（思考編 問${r.from.join('・')}に関係）</small></span><button class="go" data-kg="${r.g}" data-th="${r.th}">知識編を開く</button></div>`).join('')+'</div>';bindGo(hs)}}
+ const sel=$('#fpart');const cp=sel.value;sel.innerHTML='<option value="-1">すべての部</option>'+B.data.map((p,i)=>`<option value="${i}">${p.p} ${p.n}</option>`).join('');sel.value=cp&&+cp<B.data.length?cp:'-1';
+ sel.onchange=renderStat;$('#fsort').onchange=renderStat;
+ const fp=+sel.value;let ids=Object.keys(B.TH).filter(id=>fp<0||B.TH[id].pi===fp);if($('#fsort').value==='rate')ids.sort((a,b)=>(S[a].last??2)-(S[b].last??2)||B.TH[a].pi-B.TH[b].pi);
+ $('#stbody').innerHTML=ids.map(id=>{const s=S[id],l=level(s.last);return `<tr><td class="t"><span class="tid">${id}</span> ${B.TH[id].t}<br><small style="color:var(--sub)">${B.TH[id].p} ${B.TH[id].pn}・${B.TH[id].q.length}問</small></td><td><span class="pill ${l}">${LV[l]}</span></td><td>${s.lastc?`${s.lastc.c}/${s.lastc.n}<br><span class="meter"><i style="width:${Math.round(s.last*100)}%"></i></span>`:'—'}</td><td>${pct(s.best)}</td><td>${s.hist.length}</td><td>${spark(s.hist)}</td></tr>`}).join('')}
+// ---------- 履歴 ----------
+function renderHist(){const B=cur();if(!B)return;const list=attempts.filter(a=>a.book===B.id);if(!list.length){$('#hist').innerHTML=`<div class="empty">${B.subject} ${B.name}の採点記録がここに並びます。</div>`;return}
+ $('#hist').innerHTML=list.slice().reverse().map(a=>{const v=Object.entries(a.themes||{});const c=v.reduce((s,[,x])=>s+x.c,0),n=v.reduce((s,[,x])=>s+x.n,0);const d=new Date(a.at);
+  return `<div class="hcard"><span class="d">${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}</span><b>${a.part}</b><span class="s">${c} / ${n}（${Math.round(c/n*100)}%）</span><button class="del${deleting===a.id?' confirm':''}" data-id="${a.id}">${deleting===a.id?'もう一度押すと削除':'削除'}</button><div class="th">${v.map(([id,x])=>`${id} ${x.c}/${x.n}`).join('　')}</div></div>`}).join('');
+ document.querySelectorAll('.del').forEach(b=>b.onclick=()=>{const id=b.dataset.id;if(deleting===id){deleting=null;remove(id)}else{deleting=id;renderHist()}})}
+// ---------- 設定 ----------
+function renderSet(){const nb={};BOOKS.forEach(b=>(nb[b.subject]=nb[b.subject]||[]).push(b.name));
+ $('#v-set').innerHTML=`<div class="setcard"><h3>選択科目</h3><p style="margin:0 0 6px;font-size:13px;color:var(--sub)">受験で使う科目を選ぶと，その科目の教材だけがマークシートのタブに並びます（スワイプで切り替え）。</p>`+
+ SUBJECTS.map(s=>`<div class="subj"><label><input type="checkbox" data-s="${s.n}" ${settings.subjects[s.n]?'checked':''}><span><b>${s.n}</b><small>${nb[s.n]?nb[s.n].map(x=>x+'マークシート').join('・'):'マークシートは準備中です'}</small></span></label>${nb[s.n]?'':'<span class="tag">準備中</span>'}</div>`).join('')+`</div>`+
+ `<div class="setcard"><h3>表示</h3><label class="sw"><input type="checkbox" id="optHint" ${settings.hint?'checked':''}><span>生物基礎：思考編で間違えた問題に，復習すると良い知識編の問題を表示する<small style="display:block;color:var(--sub);font-size:12.5px">知識編から思考編への案内は表示しません。</small></span></label></div>`+
+ `<div class="setcard"><h3>この端末の記録</h3><p style="margin:0;font-size:13px;color:var(--sub)">採点した記録は，Claudeにサインインしていれば自動で同期されます。選択科目などの設定は，この端末のブラウザに保存されます。</p></div>`;
+ document.querySelectorAll('#v-set input[data-s]').forEach(x=>x.onchange=()=>{settings.subjects[x.dataset.s]=x.checked;saveSettings();cur();renderBooks()});
+ $('#optHint').onchange=e=>{settings.hint=e.target.checked;saveSettings()}}
+// ---------- 描画 ----------
+function renderAll(){const B=cur();renderBooks();
+ $('#hsmall').textContent=B?`テーマ別問題集 ${B.subject} ${B.name}`:'テーマ別問題集';$('#htitle').textContent=B?`${B.name}マークシート`:'マークシート';
+ if(view==='mark')renderMark();if(view==='stat')renderStat();if(view==='hist')renderHist();if(view==='set')renderSet();
+ if(B){document.body.className=B.cls}}
+renderAll();
+</script></body></html>
